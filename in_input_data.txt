@@ -1,0 +1,78 @@
+################################
+#### Parameters for IsaMill ###
+################################
+
+All dimensions in millimeters
+
+1) Chamber dimensions
+	0-outer diameter <130>
+	1-inner diameter <231.5>
+	
+
+2) Disk dimensions
+	2-diameter <180>
+	3-thickness <15>
+
+3) 4-distance between disks <53>
+
+4) 5-no of disks <3>
+   6-no of holes <6>
+   7-hole diameter<30>
+
+5) Shaft
+	8-diameter <78>
+	
+
+### SETTING UP THE PARTICLE ####
+
+1) 9-Total no of particles <5>
+
+2) 10-Particle size (diameter)<3> - mm
+
+3) 11-Particle density <2.5e3> - m^3
+
+4) 12-Initial particle velocity <0.0> - m/s
+
+### PARAMETERS FOR CALCULATING INTERACTION
+
+1) 13-Hamaker constant <6.5e-20>
+   14- minimum gap 10e-10
+   14- maximum gap <0.3>
+
+2) 15-particle Young's modulus <2e7>
+
+3) 16-wall Young's modulus <2e7>
+
+4) 17-particle poison ratio <0.29>
+
+5) 18-wall poison ratio <0.29>
+
+6) 19-particle particle normal damping coefficient <0.5e-3>
+
+7) 20-particle wall normal damping coefficient <0.5e-3>
+
+8) 21-particle disk normal damping coefficient <0.5e-3>
+
+9) 22-particle particle tangential damping coefficient <0.3>
+
+10) 23-particle wall tangential damping coefficient <0.3>
+
+11) 24-particle disk tangential damping coefficient <0.3>
+
+12) 25-particle particle sliding friction coefficient <0.1>
+
+13) 26-particle wall sliding friction coefficient <0.1>
+
+14) 27-particle disk sliding friction coefficient <0.1>
+
+15) 28-particle particle rolling friction coefficient <1e-2>
+
+
+
+### GENERAL MOVEMENT PARAMETERS
+
+1) Rotational speed(rpm)
+	29-rotor speed <1200>
+2) 30-Time step(Sec) <0.000005>
+3) 31-Max time(Sec) <10.120003>
+4) 32- no of rotations <6>
