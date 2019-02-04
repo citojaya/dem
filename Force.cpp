@@ -222,8 +222,8 @@ void Mill::startCalculation()
 		//---------------------------
 
 		gForce = particleMass[i];		
-		pForce[0] = pForce[0] + dragFX;
-		pForce[1] = pForce[1] + dragFY + bouyancyF + (-gForce);
+		pForce[0] = pForce[0];
+		pForce[1] = pForce[1]+(-gForce);
 		//pForce[1] = pForce[1] + dragFY;
 		pForce[2] = pForce[2] + dragFZ;
 		
@@ -394,353 +394,353 @@ void Mill::startCalculation()
 	}*/
 };
 
-void Mill::updateCfdCells(int fcounter)
-{
-	cout<<"CFD frame counter "<<fcounter<<endl;
-	cout<<"step counter  "<<stepNumber<<endl;
-	cout<<"rotorAngPosition "<<rotorAngPosition<<endl;
-	cout<<"noOfCycles "<<noOfCycles<<endl;
-	/*for (int i=0; i<cfd_iIndex*cfd_jIndex*cfd_kIndex; i++ )
-	{
-		cfdCellVelX[i] = 0.0;
-		cfdCellVelY[i] = 0.0;
-		cfdCellVelZ[i] = 0.0;
-		cfdCellPressure[i] = 0.0;
-	}*/
-	frameStepCounter = 0;
-	int cfd_counter = 0;		 
-	double  cfd_angleRotated =(2.0*M_PI/noOfCfdFrames)*(fcounter);
-	double cfx_cellX = 0.0;
-	double cfx_cellY = 0.0;
-	double cfx_cellZ = 0.0;
-	double cfx_cellVelX = 0.0;
-	double cfx_cellVelY = 0.0;
-	double cfx_cellVelZ = 0.0;
-	double cfx_cellPressure = 0.0;
-    char firstStr[] = "Step-";
-    char fileNoStr[3];
-    //fileNoStr[0] = ' ';
-    //fileNoStr[1] = ' ';
-    //fileNoStr[2] = ' ';
-    sprintf(fileNoStr,"%d",fcounter);
-    strcat(firstStr,fileNoStr);
+// void Mill::updateCfdCells(int fcounter)
+// {
+// 	cout<<"CFD frame counter "<<fcounter<<endl;
+// 	cout<<"step counter  "<<stepNumber<<endl;
+// 	cout<<"rotorAngPosition "<<rotorAngPosition<<endl;
+// 	cout<<"noOfCycles "<<noOfCycles<<endl;
+// 	/*for (int i=0; i<cfd_iIndex*cfd_jIndex*cfd_kIndex; i++ )
+// 	{
+// 		cfdCellVelX[i] = 0.0;
+// 		cfdCellVelY[i] = 0.0;
+// 		cfdCellVelZ[i] = 0.0;
+// 		cfdCellPressure[i] = 0.0;
+// 	}*/
+// 	frameStepCounter = 0;
+// 	int cfd_counter = 0;		 
+// 	double  cfd_angleRotated =(2.0*M_PI/noOfCfdFrames)*(fcounter);
+// 	double cfx_cellX = 0.0;
+// 	double cfx_cellY = 0.0;
+// 	double cfx_cellZ = 0.0;
+// 	double cfx_cellVelX = 0.0;
+// 	double cfx_cellVelY = 0.0;
+// 	double cfx_cellVelZ = 0.0;
+// 	double cfx_cellPressure = 0.0;
+//     char firstStr[] = "Step-";
+//     char fileNoStr[3];
+//     //fileNoStr[0] = ' ';
+//     //fileNoStr[1] = ' ';
+//     //fileNoStr[2] = ' ';
+//     sprintf(fileNoStr,"%d",fcounter);
+//     strcat(firstStr,fileNoStr);
 	
-	ifstream cfdFile(firstStr,ios::in);
-	if (!cfdFile)
-	{
-		cout<<"Step-"<<fcounter<<"  missing !!!!!!!!!!!!!"<<endl;
-		exit(0);
-	}
-	while (cfdFile)
-	{
-		cfdFile>>cfx_cellPressure>>cfx_cellVelX>>cfx_cellVelY>>cfx_cellVelZ;
+// 	ifstream cfdFile(firstStr,ios::in);
+// 	if (!cfdFile)
+// 	{
+// 		cout<<"Step-"<<fcounter<<"  missing !!!!!!!!!!!!!"<<endl;
+// 		exit(0);
+// 	}
+// 	while (cfdFile)
+// 	{
+// 		cfdFile>>cfx_cellPressure>>cfx_cellVelX>>cfx_cellVelY>>cfx_cellVelZ;
 		
-		tempCfxCellX[cfd_counter] = cfxCellX[cfd_counter]*cos(cfd_angleRotated) + cfxCellY[cfd_counter]*sin(cfd_angleRotated);   
-		tempCfxCellY[cfd_counter] = -cfxCellX[cfd_counter]*sin(cfd_angleRotated) + cfxCellY[cfd_counter]*cos(cfd_angleRotated);   
-		cfxCellPressure[cfd_counter] = cfx_cellPressure;
-		cfxCellVelX[cfd_counter] = cfx_cellVelX*cos(cfd_angleRotated) + cfx_cellVelY*sin(cfd_angleRotated);
-		cfxCellVelY[cfd_counter] = -cfx_cellVelX*sin(cfd_angleRotated) + cfx_cellVelY*cos(cfd_angleRotated);
+// 		tempCfxCellX[cfd_counter] = cfxCellX[cfd_counter]*cos(cfd_angleRotated) + cfxCellY[cfd_counter]*sin(cfd_angleRotated);   
+// 		tempCfxCellY[cfd_counter] = -cfxCellX[cfd_counter]*sin(cfd_angleRotated) + cfxCellY[cfd_counter]*cos(cfd_angleRotated);   
+// 		cfxCellPressure[cfd_counter] = cfx_cellPressure;
+// 		cfxCellVelX[cfd_counter] = cfx_cellVelX*cos(cfd_angleRotated) + cfx_cellVelY*sin(cfd_angleRotated);
+// 		cfxCellVelY[cfd_counter] = -cfx_cellVelX*sin(cfd_angleRotated) + cfx_cellVelY*cos(cfd_angleRotated);
 		
-		cfxCellVelZ[cfd_counter] = cfx_cellVelZ;
-		cfd_counter++;
-	}
+// 		cfxCellVelZ[cfd_counter] = cfx_cellVelZ;
+// 		cfd_counter++;
+// 	}
 
-	for (int m=0; m<cfd_counter ;m++ )
-	{
-		//exit(0);
-		//-- shift X and Y axes to eliminate minus (-) coordinates
-		cfx_cellX = tempCfxCellX[m] + 0.5*id->chamberInnerDia;
-		cfx_cellY = tempCfxCellY[m] + 0.5*id->chamberInnerDia;
-		cfx_cellZ = cfxCellZ[m]+ 0.5*id->chamberLength;
-		cfx_cellVelX = cfxCellVelX[m];
-		cfx_cellVelY = cfxCellVelY[m];
-		cfx_cellVelZ = cfxCellVelZ[m];
-		cfx_cellPressure = cfxCellPressure[m];
+// 	for (int m=0; m<cfd_counter ;m++ )
+// 	{
+// 		//exit(0);
+// 		//-- shift X and Y axes to eliminate minus (-) coordinates
+// 		cfx_cellX = tempCfxCellX[m] + 0.5*id->chamberInnerDia;
+// 		cfx_cellY = tempCfxCellY[m] + 0.5*id->chamberInnerDia;
+// 		cfx_cellZ = cfxCellZ[m]+ 0.5*id->chamberLength;
+// 		cfx_cellVelX = cfxCellVelX[m];
+// 		cfx_cellVelY = cfxCellVelY[m];
+// 		cfx_cellVelZ = cfxCellVelZ[m];
+// 		cfx_cellPressure = cfxCellPressure[m];
 
-		//--------------------------------------------------------
-		//cout<<cfdDx<<"  "<<cfdDy<<"  "<<cfdDz<<endl;
-		//--Find i,j,k indexs of cell
-		int i = (int)floor(cfx_cellX/cfdDx);
-		if(i < 0)
-		{
-        	i = 0;
-        }
-        else if(i > cfd_iIndex-1)
-        {
-        	i = cfd_iIndex-1;
-        }
+// 		//--------------------------------------------------------
+// 		//cout<<cfdDx<<"  "<<cfdDy<<"  "<<cfdDz<<endl;
+// 		//--Find i,j,k indexs of cell
+// 		int i = (int)floor(cfx_cellX/cfdDx);
+// 		if(i < 0)
+// 		{
+//         	i = 0;
+//         }
+//         else if(i > cfd_iIndex-1)
+//         {
+//         	i = cfd_iIndex-1;
+//         }
 
-		int j = (int)floor(cfx_cellY/cfdDy);
-		if(j < 0)
-        {
-                j = 0;
-        }
-        else if(j > cfd_jIndex-1)
-        {
-                j = cfd_jIndex-1;
-        }
-		int k = (int)floor(cfx_cellZ/cfdDz);
-		if(k < 0)
-        {
-                k = 0;
-        }
-        else if(k > cfd_kIndex-1)
-        {
-                k = cfd_kIndex-1;
-        }
+// 		int j = (int)floor(cfx_cellY/cfdDy);
+// 		if(j < 0)
+//         {
+//                 j = 0;
+//         }
+//         else if(j > cfd_jIndex-1)
+//         {
+//                 j = cfd_jIndex-1;
+//         }
+// 		int k = (int)floor(cfx_cellZ/cfdDz);
+// 		if(k < 0)
+//         {
+//                 k = 0;
+//         }
+//         else if(k > cfd_kIndex-1)
+//         {
+//                 k = cfd_kIndex-1;
+//         }
 
-		//---------------------------
+// 		//---------------------------
 
-		//-- Now find corresponding array index
-		int p = i;
-		int q = j*cfd_iIndex;
-		int r = k*cfd_iIndex*cfd_jIndex;
-		int cfd_cellIndex = p+q+r;
+// 		//-- Now find corresponding array index
+// 		int p = i;
+// 		int q = j*cfd_iIndex;
+// 		int r = k*cfd_iIndex*cfd_jIndex;
+// 		int cfd_cellIndex = p+q+r;
 
-		//if(cellIndex > -1 && cellIndex < iIndex*jIndex*kIndex)
-		//{
-		//--If the CFD point is closer to cell store the data
-		double distance = sqrt(pow((cfdCellCellX[cfd_cellIndex] - (cfx_cellX-cfd_iIndex*0.5*cfdDx)),2)
-							+pow((cfdCellCellY[cfd_cellIndex] - (cfx_cellY-cfd_jIndex*0.5*cfdDy)),2)
-							+pow((cfdCellCellZ[cfd_cellIndex] - cfx_cellZ),2));
-        	//cout<<distance/id->lengthFactor<<"  "<<cfd_neighbourRegion*id->lengthFactor<<endl;
-		if (distance < cfd_neighbourRegion*id->lengthFactor)
-		{
-			cfdCellNeighbourDistance[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = distance;
-			cfdCellNeighbourVelX[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelX;
-			cfdCellNeighbourVelY[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelY;
-			cfdCellNeighbourVelZ[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelZ;
-			cfdCellNeighbourPressure[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellPressure;
-			cfdCellNoOfPoints[cfd_cellIndex] = cfdCellNoOfPoints[cfd_cellIndex] +1;
-			if (cfdCellNoOfPoints[cfd_cellIndex] > neighCfdPoints)
-			{
-				cout<<"cfdCellNoOfPoints[cfd_cellIndex] > neighCfdPoints"<<endl;
-				exit(0);
-			}
-		}
-		//}
-		//-------------------------------------------------------------
-	}//end of m loop
+// 		//if(cellIndex > -1 && cellIndex < iIndex*jIndex*kIndex)
+// 		//{
+// 		//--If the CFD point is closer to cell store the data
+// 		double distance = sqrt(pow((cfdCellCellX[cfd_cellIndex] - (cfx_cellX-cfd_iIndex*0.5*cfdDx)),2)
+// 							+pow((cfdCellCellY[cfd_cellIndex] - (cfx_cellY-cfd_jIndex*0.5*cfdDy)),2)
+// 							+pow((cfdCellCellZ[cfd_cellIndex] - cfx_cellZ),2));
+//         	//cout<<distance/id->lengthFactor<<"  "<<cfd_neighbourRegion*id->lengthFactor<<endl;
+// 		if (distance < cfd_neighbourRegion*id->lengthFactor)
+// 		{
+// 			cfdCellNeighbourDistance[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = distance;
+// 			cfdCellNeighbourVelX[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelX;
+// 			cfdCellNeighbourVelY[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelY;
+// 			cfdCellNeighbourVelZ[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellVelZ;
+// 			cfdCellNeighbourPressure[cfd_cellIndex][cfdCellNoOfPoints[cfd_cellIndex]] = cfx_cellPressure;
+// 			cfdCellNoOfPoints[cfd_cellIndex] = cfdCellNoOfPoints[cfd_cellIndex] +1;
+// 			if (cfdCellNoOfPoints[cfd_cellIndex] > neighCfdPoints)
+// 			{
+// 				cout<<"cfdCellNoOfPoints[cfd_cellIndex] > neighCfdPoints"<<endl;
+// 				exit(0);
+// 			}
+// 		}
+// 		//}
+// 		//-------------------------------------------------------------
+// 	}//end of m loop
 
-	cout<<"DEM cells updated"<<endl;
+// 	cout<<"DEM cells updated"<<endl;
 
-	for (int qq=0; qq<cfd_iIndex*cfd_jIndex*cfd_kIndex; qq++ )
-	{
-		pre_cfdCellVelX[qq] = cfdCellVelX[qq];
-		pre_cfdCellVelY[qq] = cfdCellVelY[qq];
-		pre_cfdCellVelZ[qq] = cfdCellVelZ[qq];
-		cfdCellVelX[qq] = 0.0;
-		cfdCellVelY[qq] = 0.0;
-		cfdCellVelZ[qq] = 0.0;
+// 	for (int qq=0; qq<cfd_iIndex*cfd_jIndex*cfd_kIndex; qq++ )
+// 	{
+// 		pre_cfdCellVelX[qq] = cfdCellVelX[qq];
+// 		pre_cfdCellVelY[qq] = cfdCellVelY[qq];
+// 		pre_cfdCellVelZ[qq] = cfdCellVelZ[qq];
+// 		cfdCellVelX[qq] = 0.0;
+// 		cfdCellVelY[qq] = 0.0;
+// 		cfdCellVelZ[qq] = 0.0;
                 
-		//---- velocity X --------------------------
-		double val_0 = cfdCellNeighbourVelX[qq][0];
-		double val_1=  cfdCellNeighbourVelX[qq][1];
-		double val_2 = cfdCellNeighbourVelX[qq][2];
-		double val_3 = cfdCellNeighbourVelX[qq][3];
-		double val_4 = cfdCellNeighbourVelX[qq][4];
+// 		//---- velocity X --------------------------
+// 		double val_0 = cfdCellNeighbourVelX[qq][0];
+// 		double val_1=  cfdCellNeighbourVelX[qq][1];
+// 		double val_2 = cfdCellNeighbourVelX[qq][2];
+// 		double val_3 = cfdCellNeighbourVelX[qq][3];
+// 		double val_4 = cfdCellNeighbourVelX[qq][4];
 		
-    		double x1 = 0.0;
-    		double x2 = 0.0;
-    		double x3 = 0.0;
-    		double x4 = 0.0;
-    		double x5 = 0.0;
+//     		double x1 = 0.0;
+//     		double x2 = 0.0;
+//     		double x3 = 0.0;
+//     		double x4 = 0.0;
+//     		double x5 = 0.0;
              
-    		if(cfdCellNeighbourDistance[qq][0] != 0)
-    		{
-        		x1 = 1.0/cfdCellNeighbourDistance[qq][0];
-    		}
-    		if(cfdCellNeighbourDistance[qq][1] != 0)
-    		{
-        		x2 = 1.0/cfdCellNeighbourDistance[qq][1];
-    		}
-    		if(cfdCellNeighbourDistance[qq][2] != 0)
-    		{
-        		x3 = 1.0/cfdCellNeighbourDistance[qq][2];
-    		}
-    		if(cfdCellNeighbourDistance[qq][3] != 0)
-    		{
-        		x4 = 1.0/cfdCellNeighbourDistance[qq][3];
-    		}
-    		if(cfdCellNeighbourDistance[qq][4] != 0)
-    		{
-        		x5 = 1.0/cfdCellNeighbourDistance[qq][4];
-    		}
+//     		if(cfdCellNeighbourDistance[qq][0] != 0)
+//     		{
+//         		x1 = 1.0/cfdCellNeighbourDistance[qq][0];
+//     		}
+//     		if(cfdCellNeighbourDistance[qq][1] != 0)
+//     		{
+//         		x2 = 1.0/cfdCellNeighbourDistance[qq][1];
+//     		}
+//     		if(cfdCellNeighbourDistance[qq][2] != 0)
+//     		{
+//         		x3 = 1.0/cfdCellNeighbourDistance[qq][2];
+//     		}
+//     		if(cfdCellNeighbourDistance[qq][3] != 0)
+//     		{
+//         		x4 = 1.0/cfdCellNeighbourDistance[qq][3];
+//     		}
+//     		if(cfdCellNeighbourDistance[qq][4] != 0)
+//     		{
+//         		x5 = 1.0/cfdCellNeighbourDistance[qq][4];
+//     		}
     
-		if(x1+x2+x3+x4+x5 != 0)
-		{
-			//cfdCellVelX[qq] = (1-stepNumber)*cfdCellVelX[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
-			cfdCellVelX[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
-		}
-		//------------------------------------------
-		//---- velocity Y --------------------------
-		val_0 = cfdCellNeighbourVelY[qq][0];
-		val_1=  cfdCellNeighbourVelY[qq][1];
-		val_2 = cfdCellNeighbourVelY[qq][2];
-		val_3 = cfdCellNeighbourVelY[qq][3];
-		val_4 = cfdCellNeighbourVelY[qq][4];
+// 		if(x1+x2+x3+x4+x5 != 0)
+// 		{
+// 			//cfdCellVelX[qq] = (1-stepNumber)*cfdCellVelX[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
+// 			cfdCellVelX[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
+// 		}
+// 		//------------------------------------------
+// 		//---- velocity Y --------------------------
+// 		val_0 = cfdCellNeighbourVelY[qq][0];
+// 		val_1=  cfdCellNeighbourVelY[qq][1];
+// 		val_2 = cfdCellNeighbourVelY[qq][2];
+// 		val_3 = cfdCellNeighbourVelY[qq][3];
+// 		val_4 = cfdCellNeighbourVelY[qq][4];
 
-        	if(x1+x2+x3+x4+x5 != 0)
-        	{
-			//cfdCellVelY[qq] = (1-stepNumber)*cfdCellVelY[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
-			cfdCellVelY[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
-		}
+//         	if(x1+x2+x3+x4+x5 != 0)
+//         	{
+// 			//cfdCellVelY[qq] = (1-stepNumber)*cfdCellVelY[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
+// 			cfdCellVelY[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
+// 		}
 	
-		//------------------------------------------
-        //---- velocity Z --------------------------
-		val_0 = cfdCellNeighbourVelZ[qq][0];
-		val_1=  cfdCellNeighbourVelZ[qq][1];
-		val_2 = cfdCellNeighbourVelZ[qq][2];
-		val_3 = cfdCellNeighbourVelZ[qq][3];
-		val_4 = cfdCellNeighbourVelZ[qq][4];
+// 		//------------------------------------------
+//         //---- velocity Z --------------------------
+// 		val_0 = cfdCellNeighbourVelZ[qq][0];
+// 		val_1=  cfdCellNeighbourVelZ[qq][1];
+// 		val_2 = cfdCellNeighbourVelZ[qq][2];
+// 		val_3 = cfdCellNeighbourVelZ[qq][3];
+// 		val_4 = cfdCellNeighbourVelZ[qq][4];
 
-        	if(x1+x2+x3+x4+x5 != 0)
-        	{
-			//cfdCellVelZ[qq] = (1-stepNumber)*cfdCellVelZ[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
-			cfdCellVelZ[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
-		}
-        //------------------------------------------
-        //---- pressure --------------------------
-		val_0 = cfdCellNeighbourPressure[qq][0];
-		val_1=  cfdCellNeighbourPressure[qq][1];
-		val_2 = cfdCellNeighbourPressure[qq][2];
-		val_3 = cfdCellNeighbourPressure[qq][3];
-		val_4 = cfdCellNeighbourPressure[qq][4];
+//         	if(x1+x2+x3+x4+x5 != 0)
+//         	{
+// 			//cfdCellVelZ[qq] = (1-stepNumber)*cfdCellVelZ[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
+// 			cfdCellVelZ[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
+// 		}
+//         //------------------------------------------
+//         //---- pressure --------------------------
+// 		val_0 = cfdCellNeighbourPressure[qq][0];
+// 		val_1=  cfdCellNeighbourPressure[qq][1];
+// 		val_2 = cfdCellNeighbourPressure[qq][2];
+// 		val_3 = cfdCellNeighbourPressure[qq][3];
+// 		val_4 = cfdCellNeighbourPressure[qq][4];
 
-        if(x1+x2+x3+x4+x5 != 0)
-        {
-			//cfdCellPressure[qq] = (1-stepNumber)*cfdCellPressure[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
-			cfdCellPressure[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
-        }
-        //------------------------------------------
-		//---Initialize cellCfdDistance for the next input file -------
-        for (int rr=0; rr<neighCfdPoints; rr++)
-        {
-                cfdCellNeighbourDistance[qq][rr] = 0.0;
-                cfdCellNeighbourVelX[qq][rr] = 0.0;
-                cfdCellNeighbourVelY[qq][rr] = 0.0;
-                cfdCellNeighbourVelZ[qq][rr] = 0.0;
-                cfdCellNeighbourPressure[qq][rr] = 0.0;
-        }
+//         if(x1+x2+x3+x4+x5 != 0)
+//         {
+// 			//cfdCellPressure[qq] = (1-stepNumber)*cfdCellPressure[qq]/stepNumber + (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5)/stepNumber;
+// 			cfdCellPressure[qq] = (val_0*x1+val_1*x2+val_2*x3+val_3*x4+val_4*x5)/(x1+x2+x3+x4+x5);
+//         }
+//         //------------------------------------------
+// 		//---Initialize cellCfdDistance for the next input file -------
+//         for (int rr=0; rr<neighCfdPoints; rr++)
+//         {
+//                 cfdCellNeighbourDistance[qq][rr] = 0.0;
+//                 cfdCellNeighbourVelX[qq][rr] = 0.0;
+//                 cfdCellNeighbourVelY[qq][rr] = 0.0;
+//                 cfdCellNeighbourVelZ[qq][rr] = 0.0;
+//                 cfdCellNeighbourPressure[qq][rr] = 0.0;
+//         }
 		
-		cfdCellNoOfPoints[qq] = 0; //reset no of neighbour cfx cells
-		//----------------------------------------------------------------
-	}//end of no of CFD cells
-	cfdFile.close();
+// 		cfdCellNoOfPoints[qq] = 0; //reset no of neighbour cfx cells
+// 		//----------------------------------------------------------------
+// 	}//end of no of CFD cells
+// 	cfdFile.close();
 	
-	//----- Find pressure gradient in each cell ----------
-	for (int k=0; k<cfd_kIndex; k++)
-	{
-		for (int j=0; j<cfd_jIndex; j++ )
-		{
-			for (int i=0; i<cfd_iIndex; i++)
-			{
-				//------find pressure gradient in X direction-----------------------------
-				double pX2 = 0.0;
-				double pX1 = 0.0;
+// 	//----- Find pressure gradient in each cell ----------
+// 	for (int k=0; k<cfd_kIndex; k++)
+// 	{
+// 		for (int j=0; j<cfd_jIndex; j++ )
+// 		{
+// 			for (int i=0; i<cfd_iIndex; i++)
+// 			{
+// 				//------find pressure gradient in X direction-----------------------------
+// 				double pX2 = 0.0;
+// 				double pX1 = 0.0;
 				
-				int cfdCellIndex = i + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
- 		                pre_cfdCellPGradX[cfdCellIndex] = cfdCellPGradX[cfdCellIndex];
-                		pre_cfdCellPGradY[cfdCellIndex] = cfdCellPGradY[cfdCellIndex];
-                		pre_cfdCellPGradZ[cfdCellIndex] = cfdCellPGradZ[cfdCellIndex];
-                		cfdCellPGradX[cfdCellIndex] = 0.0;
-                		cfdCellPGradY[cfdCellIndex] = 0.0;
-                		cfdCellPGradZ[cfdCellIndex] = 0.0;
+// 				int cfdCellIndex = i + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
+//  		                pre_cfdCellPGradX[cfdCellIndex] = cfdCellPGradX[cfdCellIndex];
+//                 		pre_cfdCellPGradY[cfdCellIndex] = cfdCellPGradY[cfdCellIndex];
+//                 		pre_cfdCellPGradZ[cfdCellIndex] = cfdCellPGradZ[cfdCellIndex];
+//                 		cfdCellPGradX[cfdCellIndex] = 0.0;
+//                 		cfdCellPGradY[cfdCellIndex] = 0.0;
+//                 		cfdCellPGradZ[cfdCellIndex] = 0.0;
  				
-				int cfdPostIndex = (i+1) + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
-				if ((i+1) > (cfd_iIndex-1))
-				{
-					pX2 = 0.0;
-				}
-				else
-				{
-					pX2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
-				}
+// 				int cfdPostIndex = (i+1) + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
+// 				if ((i+1) > (cfd_iIndex-1))
+// 				{
+// 					pX2 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pX2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
+// 				}
 
-				int cfdPreIndex = (i-1) + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
-				if ((i-1) < 0)
-				{
-					pX1 = 0.0;
-				}
-				else
-				{
-					pX1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
-				}
+// 				int cfdPreIndex = (i-1) + (j*cfd_iIndex) + (k*cfd_iIndex*cfd_jIndex);
+// 				if ((i-1) < 0)
+// 				{
+// 					pX1 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pX1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
+// 				}
 				
-				cfdCellPGradX[cfdCellIndex] = (pX2 - pX1)/(id->chamberInnerDia)/(cfd_iIndex*1.0);
-				//--------------------------------------------------------------------------
+// 				cfdCellPGradX[cfdCellIndex] = (pX2 - pX1)/(id->chamberInnerDia)/(cfd_iIndex*1.0);
+// 				//--------------------------------------------------------------------------
 
-				//--------find pressure gradient in Y direction------------------------------
-				double pY2 = 0.0;
-				double pY1 = 0.0;
+// 				//--------find pressure gradient in Y direction------------------------------
+// 				double pY2 = 0.0;
+// 				double pY1 = 0.0;
 				
-				cfdPostIndex = i + (j+1)*cfd_iIndex + (k*cfd_iIndex*cfd_jIndex);
-				if ((j+1) > (cfd_jIndex-1))
-				{
-					pY2 = 0.0;
-				}
-				else
-				{
-					pY2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
-				}
+// 				cfdPostIndex = i + (j+1)*cfd_iIndex + (k*cfd_iIndex*cfd_jIndex);
+// 				if ((j+1) > (cfd_jIndex-1))
+// 				{
+// 					pY2 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pY2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
+// 				}
 
-				cfdPreIndex = i + (j-1)*cfd_iIndex + (k*cfd_iIndex*cfd_jIndex);
-				if ((j-1) < 0)
-				{
-					pY1 = 0.0;
-				}
-				else
-				{
-					pY1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
-				}
-				cfdCellPGradY[cfdCellIndex] = (pY2 - pY1)/(id->chamberInnerDia)/(cfd_jIndex*1.0);
-				//-----------------------------------------------------------------------------
+// 				cfdPreIndex = i + (j-1)*cfd_iIndex + (k*cfd_iIndex*cfd_jIndex);
+// 				if ((j-1) < 0)
+// 				{
+// 					pY1 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pY1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
+// 				}
+// 				cfdCellPGradY[cfdCellIndex] = (pY2 - pY1)/(id->chamberInnerDia)/(cfd_jIndex*1.0);
+// 				//-----------------------------------------------------------------------------
 				
-				//-------find pressure gradient in Z direction--------------------------------
-				double pZ2 = 0.0;
-				double pZ1 = 0.0;
+// 				//-------find pressure gradient in Z direction--------------------------------
+// 				double pZ2 = 0.0;
+// 				double pZ1 = 0.0;
 				
-				cfdPostIndex = i + (j*cfd_iIndex) + (k+1)*cfd_iIndex*cfd_jIndex;
-				if ((k+1) > (cfd_kIndex-1))
-				{
-					pZ2 = 0.0;
-				}
-				else
-				{
-					pZ2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
-				}
+// 				cfdPostIndex = i + (j*cfd_iIndex) + (k+1)*cfd_iIndex*cfd_jIndex;
+// 				if ((k+1) > (cfd_kIndex-1))
+// 				{
+// 					pZ2 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pZ2 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPostIndex]);
+// 				}
 
-				cfdPreIndex = i + (j*cfd_iIndex) + (k-1)*cfd_iIndex*cfd_jIndex;
-				if ((k-1) < 0)
-				{
-					pZ1 = 0.0;
-				}
-				else
-				{
-					pZ1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
-				}
-				cfdCellPGradZ[cfdCellIndex] = (pZ2 - pZ1)/(id->chamberLength)/(cfd_kIndex*1.0);
-				//-----------------------------------------------------------------------------
-			}
-		}
-	}
+// 				cfdPreIndex = i + (j*cfd_iIndex) + (k-1)*cfd_iIndex*cfd_jIndex;
+// 				if ((k-1) < 0)
+// 				{
+// 					pZ1 = 0.0;
+// 				}
+// 				else
+// 				{
+// 					pZ1 = 0.5*(cfdCellPressure[cfdCellIndex] + cfdCellPressure[cfdPreIndex]);
+// 				}
+// 				cfdCellPGradZ[cfdCellIndex] = (pZ2 - pZ1)/(id->chamberLength)/(cfd_kIndex*1.0);
+// 				//-----------------------------------------------------------------------------
+// 			}
+// 		}
+// 	}
 
-	//----- for testing -----------------------------
-	/*ofstream out_File("test_velocity.dat", ios::out);
-	if (fcounter == 8)
-	{
-	out_File<<"ZONE T = 'zone' i="<<cfd_iIndex<<", j= "<<cfd_jIndex<<", k = "<<cfd_kIndex<<endl;
-	for (int i=0; i<cfd_iIndex*cfd_jIndex*cfd_kIndex; i++)
-	{
-		out_File<<setw(15)<<cfdCellCellX[i]<<setw(15)<<cfdCellCellY[i]
-			<<setw(15)<<cfdCellCellZ[i]<<setw(15)<<cfdCellPressure[i]
-			<<setw(15)<<cfdCellVelX[i]<<setw(15)<<cfdCellVelY[i]<<setw(15)<<cfdCellVelZ[i]<<endl;
-	}
-	out_File.close();
-	exit(0);
-	}*/
-	//-----------------------------------------------
-};
+// 	//----- for testing -----------------------------
+// 	/*ofstream out_File("test_velocity.dat", ios::out);
+// 	if (fcounter == 8)
+// 	{
+// 	out_File<<"ZONE T = 'zone' i="<<cfd_iIndex<<", j= "<<cfd_jIndex<<", k = "<<cfd_kIndex<<endl;
+// 	for (int i=0; i<cfd_iIndex*cfd_jIndex*cfd_kIndex; i++)
+// 	{
+// 		out_File<<setw(15)<<cfdCellCellX[i]<<setw(15)<<cfdCellCellY[i]
+// 			<<setw(15)<<cfdCellCellZ[i]<<setw(15)<<cfdCellPressure[i]
+// 			<<setw(15)<<cfdCellVelX[i]<<setw(15)<<cfdCellVelY[i]<<setw(15)<<cfdCellVelZ[i]<<endl;
+// 	}
+// 	out_File.close();
+// 	exit(0);
+// 	}*/
+// 	//-----------------------------------------------
+// };
 /***************************************************
  * This method finds the contact of the particle with 
  * disk,hole and drum. Call from findNeighbours()

@@ -1,7 +1,7 @@
 # Project: mill
 # Makefile created by Dev-C++ 4.9.9.2
 
-g++   = gcc
+gcc   = g++
 WINDRES = windres.exe
 RES  = 
 OBJ  =  Cell.o WornHoleOneCode.o Force.o  InputData.o Mill.o Point.o Simulate.o $(RES)
@@ -26,7 +26,7 @@ clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(gcc) $(LINKOBJ) -o "mill"  $(LIBS)
+	$(gcc) $(LINKOBJ) -o "mill" 
 
 WornHoleOneCode.o: WornHoleOneCode.cpp
 	$(gcc) -c WornHoleOneCode.cpp -o WornHoleOneCode.o $(CXXFLAGS)

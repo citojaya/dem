@@ -442,7 +442,7 @@ class Mill
 		//-------------------------------------------------------------
 		
 		double xCoordinate,yCoordinate,zCoordinate,pX,pY,pZ,dx,dy,dz,cfdDx,cfdDy,cfdDz,cellDx,cellDy,cellDz,diskY;
-		ofstream torqueFile,errorFile;//,dataFile;
+		ofstream torqueFile,errorFile,dataFile;
 		fstream forceFile;
 };
 

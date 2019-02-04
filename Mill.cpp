@@ -351,7 +351,7 @@ Mill::Mill()
 	//particleDataFile.open("particlePosition.dat",ios::out | ios::binary);
 	torqueFile.open("out_torque.txt",ios::out);
 	errorFile.open("out_errorlog.txt",ios::out);
-	//dataFile.open("out_out.dat",ios::out);
+	dataFile.open("out_out.dat",ios::out);
 };
 
 Mill::~Mill()
@@ -359,7 +359,7 @@ Mill::~Mill()
 	delete id;
 
 	//outputFile.close();
-	//dataFile.close();
+	dataFile.close();
 	forceFile.close();
 	torqueFile.close();
 	errorFile.close();
@@ -489,69 +489,69 @@ void Mill::generateMill()
 	//diskFile.open("in_wornPIN.dat",ios::in);
 	//--------------------------------------
 
-    ifstream diskFile("in_dsk180_5_6H.dat",ios::in);
-	if (!diskFile)
-	{
-		cout<<"DISK FILE MISSING!!!!!!!!!!!!!"<<endl;
-		exit(1);
-	}
-	while(fileCounter < diskFileArraySize1)
-	{
-		diskFile>>tempX>>tempY>>tempZ;
-		double tempRR = sqrt(pow(tempX,2)+pow(tempY,2));
-		double tTheta = 0.0;
-		if(tempX < 0 )
-			tTheta = atan(tempY/tempX) + M_PI;
-		else
-			tTheta = atan(tempY/tempX);
-		tTheta = tTheta + rotorAngPosition;
-		tempX = tempRR*cos(tTheta);
-		tempY = tempRR*sin(tTheta);
-		pointArrayX[fileCounter] = tempX*1e-3*id->lengthFactor;
-		pointArrayY[fileCounter] = tempY*1e-3*id->lengthFactor;
-		pointArrayZ[fileCounter] = tempZ*1e-3*id->lengthFactor + 0.5*id->diskApart;
-        fileCounter++;
-	}
-	fileCounter = 0;
-	while(fileCounter < diskFileArraySize2)
-	{
-		diskFile>>tempX>>tempY>>tempZ;
-		elementArrayX[fileCounter] = tempX;
-		elementArrayY[fileCounter] = tempY;
-		elementArrayZ[fileCounter] = tempZ;
-		fileCounter++;
+    // ifstream diskFile("in_dsk180_5_6H.dat",ios::in);
+	// if (!diskFile)
+	// {
+	// 	cout<<"DISK FILE MISSING!!!!!!!!!!!!!"<<endl;
+	// 	exit(1);
+	// }
+	// while(fileCounter < diskFileArraySize1)
+	// {
+	// 	diskFile>>tempX>>tempY>>tempZ;
+	// 	double tempRR = sqrt(pow(tempX,2)+pow(tempY,2));
+	// 	double tTheta = 0.0;
+	// 	if(tempX < 0 )
+	// 		tTheta = atan(tempY/tempX) + M_PI;
+	// 	else
+	// 		tTheta = atan(tempY/tempX);
+	// 	tTheta = tTheta + rotorAngPosition;
+	// 	tempX = tempRR*cos(tTheta);
+	// 	tempY = tempRR*sin(tTheta);
+	// 	pointArrayX[fileCounter] = tempX*1e-3*id->lengthFactor;
+	// 	pointArrayY[fileCounter] = tempY*1e-3*id->lengthFactor;
+	// 	pointArrayZ[fileCounter] = tempZ*1e-3*id->lengthFactor + 0.5*id->diskApart;
+    //     fileCounter++;
+	// }
+	// fileCounter = 0;
+	// while(fileCounter < diskFileArraySize2)
+	// {
+	// 	diskFile>>tempX>>tempY>>tempZ;
+	// 	elementArrayX[fileCounter] = tempX;
+	// 	elementArrayY[fileCounter] = tempY;
+	// 	elementArrayZ[fileCounter] = tempZ;
+	// 	fileCounter++;
 		
-	}
-	diskFile.close();
+	// }
+	// diskFile.close();
 //----- REading CFD node file ------------------------------
 		int node_counter = 0;
 		char ch1 = ' ';
-		ifstream nodeFile("export.csv",ios::in);
-		if (!nodeFile)
-		{
-			cout<<" CFD node file missing !!!!!!!!!!"<<endl;
-			exit(1);
-		}
-		nodeFile.ignore(1000,']');
-		nodeFile.ignore(1000,']');
-		nodeFile.ignore(1000,']');
-		nodeFile.ignore(1000,']');
-		nodeFile.ignore(1000,']');
+		// ifstream nodeFile("export.csv",ios::in);
+		// if (!nodeFile)
+		// {
+		// 	cout<<" CFD node file missing !!!!!!!!!!"<<endl;
+		// 	exit(1);
+		// }
+		// nodeFile.ignore(1000,']');
+		// nodeFile.ignore(1000,']');
+		// nodeFile.ignore(1000,']');
+		// nodeFile.ignore(1000,']');
+		// nodeFile.ignore(1000,']');
 		//cfxCellX = new double[cfxCellPoints];       
 		//cfxCellY = new double[cfxCellPoints];       
 		//cfxCellZ = new double[cfxCellPoints];   
-		while(nodeFile)
-		{
-			double cellX = 0.0;
-			double cellY = 0.0;
-			double cellZ = 0.0;
-			nodeFile>>cellX>>ch>>cellY>>ch1>>cellZ;
-			cfxCellX[node_counter] = cellX*id->lengthFactor;
-			cfxCellY[node_counter] = cellY*id->lengthFactor;
-			cfxCellZ[node_counter] = cellZ*id->lengthFactor;
-			node_counter++;
-		}
-		nodeFile.close();
+		// while(nodeFile)
+		// {
+		// 	double cellX = 0.0;
+		// 	double cellY = 0.0;
+		// 	double cellZ = 0.0;
+		// 	nodeFile>>cellX>>ch>>cellY>>ch1>>cellZ;
+		// 	cfxCellX[node_counter] = cellX*id->lengthFactor;
+		// 	cfxCellY[node_counter] = cellY*id->lengthFactor;
+		// 	cfxCellZ[node_counter] = cellZ*id->lengthFactor;
+		// 	node_counter++;
+		// }
+		// nodeFile.close();
 //---------------------------------------------------------
 
 /*    double cX = 0.0;

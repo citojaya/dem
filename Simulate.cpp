@@ -20,91 +20,91 @@ void Mill::startMill()
 	stepsBetweenFrames = (int)(2.0*M_PI/(noOfCfdFrames*fabs(rotorSpeed)*id->timeStep));
 	
 	//------ Read and update inintial CFD details ----------------
-	ifstream cfdFile("cfddetails.dat",ios::in);
-	int cfdCount = 0;
-	double cfxVX = 0.0;
-	double cfxVY = 0.0;
-	double cfxVZ = 0.0;
-	double cfxPX = 0.0;
-	double cfxPY = 0.0;
-	double cfxPZ = 0.0;
-        if (!cfdFile)
-        {
-                cout<<"CFD INPUT FILE MISSING!!!!!!"<<endl;
-                exit(1);
-        }
+	// ifstream cfdFile("cfddetails.dat",ios::in);
+	// int cfdCount = 0;
+	// double cfxVX = 0.0;
+	// double cfxVY = 0.0;
+	// double cfxVZ = 0.0;
+	// double cfxPX = 0.0;
+	// double cfxPY = 0.0;
+	// double cfxPZ = 0.0;
+    //     if (!cfdFile)
+    //     {
+    //             cout<<"CFD INPUT FILE MISSING!!!!!!"<<endl;
+    //             exit(1);
+    //     }
 
-	while(cfdFile)
-	{
-		cfdFile.read(reinterpret_cast <char *>(&cfxVX),sizeof(double));
-		cfdFile.read(reinterpret_cast <char *>(&cfxVY),sizeof(double));
-		cfdFile.read(reinterpret_cast <char *>(&cfxVZ),sizeof(double));
-		cfdFile.read(reinterpret_cast <char *>(&cfxPX),sizeof(double));
-		cfdFile.read(reinterpret_cast <char *>(&cfxPY),sizeof(double));
-		cfdFile.read(reinterpret_cast <char *>(&cfxPZ),sizeof(double));
-		cfdCellVelX[cfdCount] = cfxVX;
-		cfdCellVelY[cfdCount] = cfxVY;
-		cfdCellVelZ[cfdCount] = cfxVZ;
-		cfdCellPGradX[cfdCount] = cfxPX;
-		cfdCellPGradY[cfdCount] = cfxPY;
-		cfdCellPGradZ[cfdCount] = cfxPZ;
-		cfdCount++;
-	}
-	cfdFile.close();
+	// while(cfdFile)
+	// {
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxVX),sizeof(double));
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxVY),sizeof(double));
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxVZ),sizeof(double));
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxPX),sizeof(double));
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxPY),sizeof(double));
+	// 	cfdFile.read(reinterpret_cast <char *>(&cfxPZ),sizeof(double));
+	// 	cfdCellVelX[cfdCount] = cfxVX;
+	// 	cfdCellVelY[cfdCount] = cfxVY;
+	// 	cfdCellVelZ[cfdCount] = cfxVZ;
+	// 	cfdCellPGradX[cfdCount] = cfxPX;
+	// 	cfdCellPGradY[cfdCount] = cfxPY;
+	// 	cfdCellPGradZ[cfdCount] = cfxPZ;
+	// 	cfdCount++;
+	// }
+	// cfdFile.close();
 	//-----------------------------------------------------------
-	ifstream drumFile("in_drum",ios::in);
-	if (!drumFile)
-	{
-		cout<<"DRUM FILE MISSING!!!!!!"<<endl;
-		exit(1);
-	}
-	fstream File("out_shell.dat",ios::out | ios::binary);
-	fileCounter = 1;
-	ch = 's';
+	// ifstream drumFile("in_drum",ios::in);
+	// if (!drumFile)
+	// {
+	// 	cout<<"DRUM FILE MISSING!!!!!!"<<endl;
+	// 	exit(1);
+	// }
+	// fstream File("out_shell.dat",ios::out | ios::binary);
+	// fileCounter = 1;
+	// ch = 's';
 	
-	while(drumFile)
-	{
-		drumFile>>tempX>>tempY>>tempZ;
+	// while(drumFile)
+	// {
+	// 	drumFile>>tempX>>tempY>>tempZ;
 		
-		File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
-		File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
-		File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
-		File.write(reinterpret_cast <const char *>(&fileCounter),sizeof(int));
-	}
+	// 	File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
+	// 	File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
+	// 	File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
+	// 	File.write(reinterpret_cast <const char *>(&fileCounter),sizeof(int));
+	// }
 		
-	drumFile.close();
-	fileCounter = 0;
-	ifstream shaftFile("in_shaft",ios::in);
-	if (!shaftFile)
-	{
-		cout<<"SHAFT FILE MISSING!!!!!!!"<<endl;
-		exit(1);
-	}
+	// drumFile.close();
+	// fileCounter = 0;
+	// ifstream shaftFile("in_shaft",ios::in);
+	// if (!shaftFile)
+	// {
+	// 	cout<<"SHAFT FILE MISSING!!!!!!!"<<endl;
+	// 	exit(1);
+	// }
 
-	while(shaftFile)
-	{
-		if (fileCounter < 2644)
-		{
-			//finite element data points for the shaft//
-			shaftFile>>tempX>>tempY>>tempZ;
+	// while(shaftFile)
+	// {
+	// 	if (fileCounter < 2644)
+	// 	{
+	// 		//finite element data points for the shaft//
+	// 		shaftFile>>tempX>>tempY>>tempZ;
 			
-			File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
-			File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
-			File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
-			File.write(reinterpret_cast <const char *>(&fileCounter),sizeof(int));
-		}
-		else
-		{
-			shaftFile>>tempX>>tempY>>tempZ;
+	// 		File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
+	// 		File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
+	// 		File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
+	// 		File.write(reinterpret_cast <const char *>(&fileCounter),sizeof(int));
+	// 	}
+	// 	else
+	// 	{
+	// 		shaftFile>>tempX>>tempY>>tempZ;
 			
-			File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
-			File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
-			File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
-		}
-		fileCounter++;
-	}
-	shaftFile.close();
-	File.close();
+	// 		File.write(reinterpret_cast <const char *>(&tempX),sizeof(double));
+	// 		File.write(reinterpret_cast <const char *>(&tempY),sizeof(double));
+	// 		File.write(reinterpret_cast <const char *>(&tempZ),sizeof(double));
+	// 	}
+	// 	fileCounter++;
+	// }
+	// shaftFile.close();
+	// File.close();
 
 	ifstream infile("sample.dump",ios::in);
 		
@@ -123,7 +123,7 @@ void Mill::startMill()
                 
 		maxTime = 0.0;
 		
-		while(index <id->noOfParticles)
+	/*	while(index <id->noOfParticles)
 		{
 			maxTime = maxTime + 0.02*id->timeFactor;
             		counter = index + 5;
@@ -140,6 +140,7 @@ void Mill::startMill()
 			allocateNeighbourList();
 			//simulate();
 		}
+	*/
 	}
 	
 	else
@@ -330,7 +331,7 @@ void Mill::startMill()
 		//dumpFile.open("sample.dump",ios::out);
 		maxTime = 0.0;
        
-		while(index <id->noOfParticles)
+		/*while(index <id->noOfParticles)
 		{
 			counter = index + 2;
 			while (index < counter)
@@ -346,7 +347,7 @@ void Mill::startMill()
 			maxTime = maxTime + 0.03*id->timeFactor;
 			allocateNeighbourList();
 			//simulate();
-		}
+		}*/
 		cout<<"--- DONE  ---"<<endl;
 		infile.close();
 	//}//end of else
@@ -905,10 +906,10 @@ void Mill::simulate()
 	int forceFileCounter = 0;
 	//sampleDumpCounter/id->timeFactor > 0.005
 	double sampleDumpCounter = 1.0/id->timeFactor;
-	if(cfdFrameCounter != 0)
-	{
-		updateCfdCells(cfdFrameCounter);//initial CFD cell update
-	}
+	// if(cfdFrameCounter != 0)
+	// {
+	// 	updateCfdCells(cfdFrameCounter);//initial CFD cell update
+	// }
 
 	while(totalTime < maxTime)
 	{
@@ -975,7 +976,7 @@ void Mill::simulate()
             		double totTime = (totalTime+startingTime)/id->timeFactor;
 
             		writeDumpFile(simTime,totTime,cfdFrameCounter);
-            		writeCfdDetails();
+            		//writeCfdDetails();
 			if (fabs(rotorAngPosition) > 2*M_PI)
 			{
 				rotorAngPosition = 0.0;	
@@ -987,7 +988,7 @@ void Mill::simulate()
             		{
                  		exit(0);
             		}
-            		updateCfdCells(cfdFrameCounter);
+            		//updateCfdCells(cfdFrameCounter);
             		cfdFrameAngle = 0;
         	}
        
@@ -1021,7 +1022,7 @@ void Mill::simulate()
 		if(outFileCounter >250)
 		//if(fabs(tempAngPosition) > (2.0*M_PI/id->noOfHoles - 0.05*M_PI/180.0))
 		{
-                        writeDiskPosition();
+                        //writeDiskPosition();
                         writeParticlePosition();
 
                         for(int i=0; i<iIndex*jIndex*kIndex; i++)
@@ -1047,7 +1048,7 @@ void Mill::simulate()
                 cellPorosity[i] = porosity;
                         }
 
-                        writeZonePosition();
+                        //writeZonePosition();
             outFileCounter = 0;
                         //tempAngPosition = 0;
 			zoneCounter++;
@@ -1266,19 +1267,20 @@ void Mill::writeDiskPosition()
 	
 };
 
-/*
+
 void Mill::writeParticlePosition()
 {
-    dataFile<<" ZONE T = PARTICLE "<<endl;
+    dataFile<<" TIME = "<<totalTime/id->timeFactor<<endl;
 	for (int i=0; i<noOfParticles ;i++ )
 	{
 		dataFile<<fixed<<setprecision(3)<<setw(10)<<particleX[i]*1e3/id->lengthFactor<<setw(10)<<
             particleY[i]*1e3/id->lengthFactor<<setw(10)<<particleZ[i]*1e3/id->lengthFactor<<setw(10)<<totalCollisions[i]<<endl;
 	}
 	dataFile<<endl;
+	
 }
-*/
 
+/*
 void Mill::writeParticlePosition()
 {
     int rank = 0;
@@ -1347,7 +1349,7 @@ void Mill::writeParticlePosition()
 	}
 	File.close();
 };
-
+*/
 /*
 void Mill::writePositionData()
 {
