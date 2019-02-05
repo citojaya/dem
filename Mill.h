@@ -15,14 +15,14 @@
 #include<ctime>
 #include <iomanip>
 
-#define kIndex 52
-#define jIndex 56
-#define iIndex 56
-#define cfd_iIndex 112
-#define cfd_jIndex 112
-#define cfd_kIndex 104
+#define kIndex 42
+#define jIndex 33
+#define iIndex 33
+#define cfd_iIndex 2
+#define cfd_jIndex 2
+#define cfd_kIndex 4
 #define neighCfdPoints 5
-#define cfxCellPoints 323000
+#define cfxCellPoints 2
 #define cfd_neighbourRegion 2*1e-3
 #define noOfCfdFrames 36
 #define neighCellListSize 27
@@ -65,9 +65,9 @@
 #define collGapCoeff 0.06*1e-3 //allowed gap for a collision 
 //#define maxDisplacement 1.0*1e-3
 
-#define rIn 3*1e-3 //par diameter - largest particle
-#define rOut 4.65*1e-3 // rIn*1.55 - largest particle
-#define allowedDistance 0.825*1e-3 // (rOut-rIn)/2 - smallest particle
+#define rIn 2.5*1e-3 //par diameter - largest particle
+#define rOut 3.87*1e-3 // rIn*1.55 - largest particle
+#define allowedDistance 0.685*1e-3 // (rOut-rIn)/2 - smallest particle
 
 #define compArraySize 22 //no of mill components
 #define hollowCompArraySize 6 //number of sub components

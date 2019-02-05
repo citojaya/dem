@@ -1273,8 +1273,13 @@ void Mill::writeParticlePosition()
     dataFile<<" TIME = "<<totalTime/id->timeFactor<<endl;
 	for (int i=0; i<noOfParticles ;i++ )
 	{
-		dataFile<<fixed<<setprecision(3)<<setw(10)<<particleX[i]*1e3/id->lengthFactor<<setw(10)<<
-            particleY[i]*1e3/id->lengthFactor<<setw(10)<<particleZ[i]*1e3/id->lengthFactor<<setw(10)<<totalCollisions[i]<<endl;
+		dataFile<<fixed<<setprecision(3)<<setw(10)<<particleX[i]*1e3/id->lengthFactor<<setw(10)
+		<<particleY[i]*1e3/id->lengthFactor
+		<<setw(10)<<particleZ[i]*1e3/id->lengthFactor
+		<<setw(10)<<particleVelX[i]/id->velocityFactor
+		<<setw(10)<<particleVelY[i]/id->velocityFactor
+		<<setw(10)<<particleVelZ[i]/id->velocityFactor
+		<<setw(10)<<particleDiameter[i]*1e3/id->lengthFactor<<endl;
 	}
 	dataFile<<endl;
 	

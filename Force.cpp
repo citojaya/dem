@@ -896,6 +896,9 @@ void Mill::calculateForce()
 	disp[1] = *(disp+1) + *(tipContPointDisp+1);
 	disp[2] = *(disp+2) + *(tipContPointDisp+2);
 	dsmax = dsmaxCff*nrmDsp;
+	cout<<"disp "<<disp[0]<<" "
+		<<disp[1]
+		<<" "<<disp[2]<<endl;
 
 	dd = sqrt(pow(*disp,2)+pow(*(disp+1),2)+pow(*(disp+2),2));
 	fdt = sfCoff*nrmCntForce;
@@ -951,6 +954,9 @@ void Mill::calculateForce()
 
 	//sum of forces
 	nrmForce = (nrmCntForce + nrmDampForce);
+	// cout<<" nrmCntForce"<<nrmCntForce<<endl;
+	// cout<<"nrmDampForce "<<nrmDampForce<<endl;
+	// cout<<"NRM FORCE "<<nrmForce<<endl;
 	temp = nrmForce*(*unitVec);
 	totForce[0] = fdtx + temp;
 	temp = nrmForce*(*(unitVec+1));
@@ -958,6 +964,8 @@ void Mill::calculateForce()
 	temp = nrmForce*(*(unitVec+2));
 	totForce[2] = fdtz + temp;
 
+
+	//cout<<"FDTX "<<fdtx<<" "<<fdty<<" "<<fdtz<<endl;
 	projVec(totForce,unitVec,0); // gives the projected force vector on a plane perpendicular to normal vector
 	instShearForce = sqrt(pow(r1,2) + pow(r2,2) + pow(r3,2)); 
 
