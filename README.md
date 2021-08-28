@@ -1,2 +1,2 @@
 # dem
-This repository contains all the DEM C++ files used for grinding mill simulation
+DEM code (C++) used for grinding mill simulation
