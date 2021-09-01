@@ -27,4 +27,4 @@ class Point
 		double *point;
 };
 
-#endif
+##endif
